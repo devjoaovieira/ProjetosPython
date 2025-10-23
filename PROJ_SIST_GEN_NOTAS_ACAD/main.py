@@ -1,3 +1,4 @@
+from time import sleep
 #criar função auxiliar para validar entradas numéricas dos usuários
 def entrada_numerica(mensagem):
     while True:
@@ -13,7 +14,7 @@ def exibir_menu():
     print('2. Lançar Notas do Aluno')
     print('3. Visualizar Boletim')
     print('4. Sair')
-
+    print()
     opcao = entrada_numerica("Escolha uma opção entre 1 e 4: ")
     return opcao
 #-----------------------------------------------------------------------------------#
@@ -22,21 +23,20 @@ def main():
     while True:
         opcao = exibir_menu()
         if opcao == 1:
-            matricula = int(input("Matricula do aluno: "))
-            matricula = {}
-            matricula['nome'] = str(input('Digite o nome do aluno: '))
-            matricula['curso'] = str(input(f'Digite o nome do curso de {matricula['nome']}: ')).strip().capitalize()
-            turma.append(matricula)
-            print(matricula)
-            print(turma)
-            
-            
-            #perguntar nome
-            #matricula 6 digitos
-            #curso
-    
-            
-
+            aluno = {}
+            aluno.clear()
+            print()
+            aluno['Nome_Aluno'] = str(input("Nome do aluno: ")).strip().title()
+            aluno['matricula'] = int(input("Matricula do aluno: "))
+            aluno['curso'] = str(input("Curso do aluno: ")).strip().title()
+            turma.append(aluno.copy())
+            print('Confira as informações do aluno:')
+            for k, v in aluno.items():
+                print(f'{k}: {v}')
+                sleep(0.7)
+            print()
+            print('Aluno adicionado com sucesso!')
+            print()
 #codigo principal
 #ATENÇÃO - A lista Turmas devem ser separadas por matéria cursada - É necessario descobrir a lógica para fazer isso
 
