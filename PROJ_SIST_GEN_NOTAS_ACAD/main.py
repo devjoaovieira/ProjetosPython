@@ -1,6 +1,7 @@
 from time import sleep
+from random import randint
 #criar função auxiliar para validar entradas numéricas dos usuários
-def entrada_numerica(mensagem):
+def entrada_numerica():
     while True:
             try:
                 numero = int(input('Escolha um número: '))
@@ -15,20 +16,24 @@ def exibir_menu():
     print('3. Visualizar Boletim')
     print('4. Sair')
     print()
-    opcao = entrada_numerica("Escolha uma opção entre 1 e 4: ")
+    opcao = entrada_numerica()
     return opcao
 #-----------------------------------------------------------------------------------#
 def main():
     turma = []
     while True:
         opcao = exibir_menu()
-        if opcao == 1:
+        if opcao == 1: #adicionar novo aluno
             aluno = {}
             aluno.clear()
             print()
             aluno['Nome'] = str(input("Nome do aluno: ")).strip().title()
             aluno['Curso'] = str(input("Curso do aluno: ")).strip().title()
-            aluno['Matricula'] = int(input("Matricula do aluno: "))
+            while True:
+                matricula = randint(110000, 119999)
+                if matricula not in turma:
+                    break
+            aluno['Matricula'] = matricula
             
             while True:
                 print()
@@ -47,9 +52,9 @@ def main():
                 if resp == 'N':
                     alterar_dado = int(input(
                     '''Qual dado deseja alterar?
-    [1] - Nome do Aluno
-    [2] - Curso
-    '''))
+        [1] - Nome do Aluno
+        [2] - Curso
+        '''))
                     if alterar_dado == 1:
                         print('Corrija abaixo o nome do novo aluno')
                         aluno['Nome'] = str(input("Nome do aluno: ")).strip().title()
@@ -65,9 +70,11 @@ def main():
                         print()
                         
                 if resp == 'S':
+                    print()
+                    print('Validando Dados. Aguarde...')
+                    sleep(1)
                     turma.append(aluno.copy())
                     sleep(0.5)
-                    print()
                     print()
                     for k, v in aluno.items():
                         print(f'{k}: {v}')
@@ -76,8 +83,8 @@ def main():
                     print('Novo aluno registrado com sucesso na Turma!')
                     print()
                     break
-            
-            
+#-----------------------------------------------------------------------------------#            
+        #if opcao == 2:    
 #codigo principal
 #ATENÇÃO - A lista Turmas devem ser separadas por matéria cursada - É necessario descobrir a lógica para fazer isso
 
