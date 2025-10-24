@@ -26,17 +26,58 @@ def main():
             aluno = {}
             aluno.clear()
             print()
-            aluno['Nome_Aluno'] = str(input("Nome do aluno: ")).strip().title()
-            aluno['matricula'] = int(input("Matricula do aluno: "))
-            aluno['curso'] = str(input("Curso do aluno: ")).strip().title()
-            turma.append(aluno.copy())
-            print('Confira as informações do aluno:')
-            for k, v in aluno.items():
-                print(f'{k}: {v}')
-                sleep(0.7)
-            print()
-            print('Aluno adicionado com sucesso!')
-            print()
+            aluno['Nome'] = str(input("Nome do aluno: ")).strip().title()
+            aluno['Curso'] = str(input("Curso do aluno: ")).strip().title()
+            aluno['Matricula'] = int(input("Matricula do aluno: "))
+            
+            while True:
+                print()
+                print('Confira os dados do aluno:')
+                sleep(0.5)
+                print()
+                for k, v in aluno.items():
+                    print(f'{k}: {v}')
+                    sleep(0.8)
+                print()
+                while True:
+                    resp = str(input('Os dados do aluno estão corretos? [S/N]')).strip().upper()[0]
+                    if resp in 'SN':
+                        break
+                    print('ERRO! Responda apenas S ou N')
+                if resp == 'N':
+                    alterar_dado = int(input(
+                    '''Qual dado deseja alterar?
+    [1] - Nome do Aluno
+    [2] - Curso
+    '''))
+                    if alterar_dado == 1:
+                        print('Corrija abaixo o nome do novo aluno')
+                        aluno['Nome'] = str(input("Nome do aluno: ")).strip().title()
+                        print()
+                        print(f'Nome do aluno {aluno['Nome']} corrigido com sucesso')
+                        print()
+                        
+                    if alterar_dado == 2:
+                        print('Corrija abaixo o curso do novo aluno')
+                        aluno['Curso'] = str(input("Curso do aluno: ")).strip().title()
+                        print()
+                        print(f'Curso do aluno {aluno['Nome']} corrigido para {aluno['Curso']} com sucesso')
+                        print()
+                        
+                if resp == 'S':
+                    turma.append(aluno.copy())
+                    sleep(0.5)
+                    print()
+                    print()
+                    for k, v in aluno.items():
+                        print(f'{k}: {v}')
+                        sleep(0.8)
+                    print()
+                    print('Novo aluno registrado com sucesso na Turma!')
+                    print()
+                    break
+            
+            
 #codigo principal
 #ATENÇÃO - A lista Turmas devem ser separadas por matéria cursada - É necessario descobrir a lógica para fazer isso
 
