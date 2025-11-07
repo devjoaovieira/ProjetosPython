@@ -1,0 +1,1 @@
+input('Escolha um número para ser começar: ')

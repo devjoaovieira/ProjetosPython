@@ -1,33 +1,27 @@
 from time import sleep
 from random import randint
+
+turma = []
+notas = []
+
 #criar função auxiliar para validar entradas numéricas dos usuários
 def entrada_numerica(msg):
     while True:
-            try:
-                numero = int(input(msg))
-                return numero
-            except ValueError:
-                print("Erro: Você não digitou um número válido! \nTente novamente!")
+        print("Erro: Você não digitou um número válido! \nTente novamente!")
+        if msg.isnumeric():
+            break 
 #-----------------------------------------------------------------------------------#
-def exibir_menu():
-    print('GERENCIADOR DE NOTAS ACADÊMICAS\n')
-    print('1. Adicionar Novo Aluno')
-    print('2. Lançar Notas do Aluno')
-    print('3. Visualizar Boletim')
-    print('4. Sair')
-    print()
-    opcao = entrada_numerica('Escolha um número para ser começar: ')
-    return opcao
+#def escolha_menu(num):
+ 
 #-----------------------------------------------------------------------------------#
-def opcoes_do_menu():
+def opcoes_do_menu(opcao):
     while True:
-        opcao = exibir_menu()
         if opcao == 1: #adicionar novo aluno
             aluno = {}
             aluno.clear()
             print()
-            aluno['Nome'] = str(input("Nome do aluno: ")).strip().title()
-            aluno['Curso'] = str(input("Curso do aluno: ")).strip().title()
+            aluno["Nome"] = str(input("Nome do aluno: ")).strip().title()
+            aluno["Curso"] = str(input("Curso do aluno: ")).strip().title()
             while True:
                 matricula = randint(110000, 119999)
                 if matricula not in turma:
@@ -56,16 +50,16 @@ def opcoes_do_menu():
         ''')
                     if alterar_dado == 1:
                         print('Corrija abaixo o nome do novo aluno')
-                        aluno['Nome'] = str(input("Nome do aluno: ")).strip().title()
+                        aluno["Nome"] = str(input("Nome do aluno: ")).strip().title()
                         print()
-                        print(f'Nome do aluno {aluno['Nome']} corrigido com sucesso')
+                        print(f'Nome do aluno {aluno["Nome"]} corrigido com sucesso')
                         print()
                         
                     if alterar_dado == 2:
                         print('Corrija abaixo o curso do novo aluno')
-                        aluno['Curso'] = str(input("Curso do aluno: ")).strip().title()
+                        aluno["Curso"] = str(input("Curso do aluno: ")).strip().title()
                         print()
-                        print(f'Curso do aluno {aluno['Nome']} corrigido para {aluno['Curso']} com sucesso')
+                        print(f'Curso do aluno {aluno["Nome"]} corrigido para {aluno["Curso"]} com sucesso')
                         print()
                         
                 if resp == 'S':
