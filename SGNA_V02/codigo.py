@@ -5,11 +5,14 @@ def main():
 
     while True:
         funcoes.exibir_menu_principal()
-        opcao = funcoes.validar_num()
+        opcao = funcoes.validar_num("Escolha um número (1-4): ")
 
         if opcao == 1:
-            print('num 1 OK')
-            #funcoes.adicionar_novo_aluno(turma) # Escreva isso, mesmo sem a função existir
+            novo_aluno = funcoes.add_novo_aluno(turma)
+            turma.append(novo_aluno)
+            print(f">>>> Aluno adicionado com sucesso <<<<")
+            print(f"Total de alunos na turma: {len(turma)}")
+            print()
         
         elif opcao == 2:
             print('num 2 OK')
