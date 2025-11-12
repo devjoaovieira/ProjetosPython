@@ -15,12 +15,11 @@ def main():
             print()
         
         elif opcao == 2: # lançar notas do aluno
-            aluno_encontrado = funcoes.verificar_existencia_alunos(turma)
+            # CHAME A FUNÇÃO DE BUSCA DIRETA!
+            aluno_encontrado = funcoes.buscar_aluno_por_matricula(turma)
 
             if aluno_encontrado is not None:
-                lancar_nota(aluno_encontrado)
-            
-            #funcoes.lancar_notas(turma) # Escreva isso...
+                funcoes.lancar_nota(aluno_encontrado)
         
         elif opcao == 3:
             print('num 3 OK')

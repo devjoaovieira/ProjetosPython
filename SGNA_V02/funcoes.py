@@ -32,7 +32,18 @@ def validar_num(mensagem_input):
             # Se ocorrer um erro (ex: o usuário digitou texto), informa o erro
             print("Entrada inválida. Por favor, digite um número inteiro.")
     return numero
-        
+
+def validar_num_float(mensagem_input):
+    while True:
+        try:
+            # Tenta converter a entrada para um número inteiro
+            numero = float(input(mensagem_input))
+            # Se a conversão for bem-sucedida, sai do loop
+            break
+        except ValueError:
+            # Se ocorrer um erro (ex: o usuário digitou texto), informa o erro
+            print("Entrada inválida. Por favor, digite um número inteiro.")
+    return numero
 
 def obter_texto_validado(mensagem_input):
     """Garante que o usuário não digitou um texto vazio."""
@@ -48,7 +59,6 @@ def validar_S_N(pergunta):
     while True:
         resp = str(input(pergunta)).strip().upper()[0]
         if resp in 'SN':
-            
             break
         else:
             print('ERRO! Digite apenas SIM ou NÂO')
@@ -62,6 +72,8 @@ def add_novo_aluno(lista_da_turma):
     print()
     aluno['Nome'] = obter_texto_validado("Digite o nome do Aluno: ").title()
     aluno['Curso'] = obter_texto_validado("Digite o curso do Aluno: ").title()
+    lista_notas = [] #lista para notas do futuro
+    aluno['Notas'] = lista_notas
    # Em funcoes.py, dentro de add_novo_aluno()
 
     while True:
@@ -133,38 +145,53 @@ Escolha:
                 print('Opção Inválida.')
         
 #============================== FIM ================================#
-def verificar_existencia_alunos(turma, existencia=False):
-    if len(turma) == 0:
-        print('Não existem alunos na turma. \nImpossível lançar notas. Para começar adicione um aluno na turma.')
-        print()
-    else:
-        existencia=True
-        print('Aluno(s) encontrado(s) na Turma. Aguarde para lançar notas...')
-        sleep(1)
-        print()
+'''def verificar_existencia_alunos(turma, existencia=False):
+if len(turma) == 0:
+print('Não existem alunos na turma. \nImpossível lançar notas. Para começar adicione um aluno na turma.')
+print()
+else:
+existencia=True
+print('Aluno(s) encontrado(s) na Turma. Aguarde para lançar notas...')
+sleep(1)
+print()
 
-        if existencia:
-            buscar_aluno_por_matricula(turma)
+if existencia:
+buscar_aluno_por_matricula(turma)'''
 
 
 def buscar_aluno_por_matricula(lista_da_turma):
-        print('Vamos buscar aluno(a) para lançar notas.')
-        sleep(0.5)
-        print()
-        # verificar se existe matricula digitada na turma
-        matricula_procurada = validar_num("Digite a matrícula do aluno para começar: ")
-
-        for aluno in lista_da_turma:
-            if aluno['Matricula'] == matricula_procurada:
-                print(f'Aluno Encontrado: ')
-                for k, v in aluno.items():
-                    print(f'{k} {v}')
-                print()
-                return aluno
-            
-        print("Erro: Matrícula não encontrada na turma.")
+    if len(lista_da_turma) == 0:
+        print('Não existem alunos na turma. \nImpossível lançar notas.')
         print()
         return None
-            
-            
+        
+    # Se a lista não está vazia, continue:
 
+    print('Vamos buscar aluno(a) para lançar notas.')
+    sleep(0.5)
+    print()
+    # verificar se existe matricula digitada na turma
+
+    matricula_procurada = validar_num("Digite a matrícula do aluno para começar: ")
+    for aluno in lista_da_turma:
+        if aluno['Matricula'] == matricula_procurada:
+            print(f'Aluno Encontrado: ')
+            for k, v in aluno.items():
+                print(f'{k}: {v}')
+                sleep(0.6)
+            return aluno
+    
+    print("Erro: Matrícula não encontrada na turma.")
+    print()
+    return None
+            
+def lancar_nota(aluno_encontrado, nota=0): #QUARTA-FEIRA (12/11) FINALIZAR ESSA FUNÇÃO COLOCANDO O .APPEND PARA ADICIONAR NOTA
+    nota = validar_num_float(f"Digite a nota do aluno: ")
+    #while True:
+    #materia = obter_texto_validado("Digite a matéria que receberá nota: ")
+    
+    #print(f'{materia}: {nota:.2f}')
+    #resp = validar_S_N("A nota e a matéria estão corretas? [S/N]")
+        #if resp in 'Ss':
+            #aluno_encontrado[f'materia'] = nota
+            #break
