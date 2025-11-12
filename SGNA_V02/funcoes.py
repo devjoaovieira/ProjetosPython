@@ -43,7 +43,17 @@ def obter_texto_validado(mensagem_input):
             return texto
         else:
             print('ERRO! A entrada não pode estar vazia.')
-#-------------------------------------------------------------#
+
+def validar_S_N(pergunta):
+    while True:
+        resp = str(input(pergunta)).strip().upper()[0]
+        if resp in 'SN':
+            
+            break
+        else:
+            print('ERRO! Digite apenas SIM ou NÂO')
+    return resp
+#============================== FIM ================================#
 
 #-------------------OPÇÕES DOS ALUNOS------------------#
 # ADICIONAR NOVO ALUNO
@@ -122,16 +132,39 @@ Escolha:
             else:
                 print('Opção Inválida.')
         
+#============================== FIM ================================#
+def verificar_existencia_alunos(turma, existencia=False):
+    if len(turma) == 0:
+        print('Não existem alunos na turma. \nImpossível lançar notas. Para começar adicione um aluno na turma.')
+        print()
+    else:
+        existencia=True
+        print('Aluno(s) encontrado(s) na Turma. Aguarde para lançar notas...')
+        sleep(1)
+        print()
 
-        
+        if existencia:
+            buscar_aluno_por_matricula(turma)
 
-def validar_S_N(pergunta):
-    while True:
-        resp = str(input(pergunta)).strip().upper()[0]
-        if resp in 'SN':
+
+def buscar_aluno_por_matricula(lista_da_turma):
+        print('Vamos buscar aluno(a) para lançar notas.')
+        sleep(0.5)
+        print()
+        # verificar se existe matricula digitada na turma
+        matricula_procurada = validar_num("Digite a matrícula do aluno para começar: ")
+
+        for aluno in lista_da_turma:
+            if aluno['Matricula'] == matricula_procurada:
+                print(f'Aluno Encontrado: ')
+                for k, v in aluno.items():
+                    print(f'{k} {v}')
+                print()
+                return aluno
             
-            break
-        else:
-            print('ERRO! Digite apenas SIM ou NÂO')
-    return resp
+        print("Erro: Matrícula não encontrada na turma.")
+        print()
+        return None
+            
+            
 

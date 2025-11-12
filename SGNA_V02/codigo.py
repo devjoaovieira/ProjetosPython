@@ -1,7 +1,7 @@
 import funcoes
 
 def main():
-    turma = [] # Ou o dicionário que você planejou
+    turma = [] 
 
     while True:
         funcoes.exibir_menu_principal()
@@ -14,8 +14,12 @@ def main():
             print(f"Total de alunos na turma: {len(turma)}")
             print()
         
-        elif opcao == 2:
-            print('num 2 OK')
+        elif opcao == 2: # lançar notas do aluno
+            aluno_encontrado = funcoes.verificar_existencia_alunos(turma)
+
+            if aluno_encontrado is not None:
+                lancar_nota(aluno_encontrado)
+            
             #funcoes.lancar_notas(turma) # Escreva isso...
         
         elif opcao == 3:
@@ -29,5 +33,6 @@ def main():
         else:
             print("Opção inválida.")
 
+# código principal
 funcoes.boas_vindas()
 main()
