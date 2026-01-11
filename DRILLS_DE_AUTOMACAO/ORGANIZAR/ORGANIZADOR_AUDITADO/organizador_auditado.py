@@ -61,6 +61,8 @@ else:
     #Só entra aqui se a pasta existir
     
     for arquivo in arquivos:
+        origem = os.path.join(dir_bagunca, arquivo)
+        
         nome_arquivo = arquivo
         data_auditoria = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         #decidir o destino
@@ -72,33 +74,29 @@ else:
             destino_arquivo = pastas_destino["DADOS"]
         else:
             destino_arquivo = pastas_destino["OUTROS"]
-        #inserir no banco de dados
-        cursor.execute('''
-                       INSERT INTO arquivos_auditados (nome_arquivo, destino_arquivo, data_auditoria)
-                       VALUES (?, ?, ?)
-                        ''' , (nome_arquivo, destino_arquivo, data_auditoria))
-        #salvar (commit) as mudanças
-        conexao.commit()
-        print(f"📦 {arquivo} -> {os.path.basename(destino_arquivo)}")
+        # Monta o caminho final com o nome do arquivo
+        caminho_destino = os.path.join(destino_arquivo, arquivo)
+        # Move (Sem precisar verificar a pasta de novo!)
+        # Tenta fazer a operação arriscada (Mover + Gravar)
+        try:
+            # 1. Tenta Mover
+            shutil.move(origem, caminho_destino)
+            
+            # 2. Se a linha de cima não deu erro, Grava no Banco
+            cursor.execute('''
+                INSERT INTO arquivos_auditados (nome_arquivo, destino_arquivo, data_auditoria)
+                VALUES (?, ?, ?)
+            ''', (nome_arquivo, destino_arquivo, data_auditoria))
+            
+            # 3. Salva
+            conexao.commit()
+            print(f"✅ Sucesso: {arquivo} -> {os.path.basename(destino_arquivo)}")
 
-#move os arquivos 
-for arquivo in arquivos:
-    origem = os.path.join(dir_bagunca, arquivo)
-    
-    if arquivo.endswith(doc_extensoes): # 1 - MOVER AQRUIVOS DE DOCUMENTOS
-        #precisa montar caminho completo para identificar
-        destino_final = pastas_destino["DOCS"]
-    elif arquivo.endswith(img_extensoes): # 2 - MOVER ARQUIVOS DE IMAGEM
-        destino_final = pastas_destino["IMAGENS"]
-    elif arquivo.endswith(dados_extensoes): # 3 - MOVER AQRUIVOS DE DADOS
-        destino_final = pastas_destino["DADOS"]
-    else: # 99 - MOVER OUTROS ARQUIVOS
-        destino_final = pastas_destino["OUTROS"]
-    # Monta o caminho final com o nome do arquivo
-    caminho_destino = os.path.join(destino_final, arquivo)
-    # Move (Sem precisar verificar a pasta de novo!)
-    shutil.move(origem, caminho_destino)
-    print(f"📦 {arquivo} -> {os.path.basename(destino_final)}")
+        except Exception as e:
+            # Se der qualquer erro (arquivo em uso, etc), cai aqui
+            print(f"❌ ERRO ao processar {arquivo}: {e}")
+            # O script NÃO para, ele vai para o próximo arquivo do loop
+
     
 print("\n--- 📖 LENDO O BANCO DE DADOS DE AUDITORIA ---")
 #ler e mostrar todas as auditorias
